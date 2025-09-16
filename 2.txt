@@ -1,0 +1,242 @@
+# Ex 1: Factorial of a NUmber (5)
+
+# Using for Loops:
+n <- 5
+fact <- 1
+for (i in 1:n) {
+  fact <- fact * i
+}
+print(paste("Factorial of", n, "is", fact))
+
+# Using while Loops:
+n <- 5
+fact <- 1
+i <- 1
+while (i <= n) {
+  fact <- fact * i
+  i <- i + 1
+}
+cat("Factorial of", n, "is", fact, "\n")
+
+
+
+# Ex 02 : Fibonacci Series 
+
+# using For Loops:
+n <- 10
+fib <- numeric(n)
+fib[1] <- 0
+fib[2] <- 1
+
+for (i in 3:n) {
+  fib[i] <- fib[i - 1] + fib[i - 2]
+}
+
+print(fib)
+
+# Using While Loops:
+n <- 10          
+a <- 0            
+b <- 1            
+count <- 0        
+
+while (count < n) {
+  print(a)        
+  temp <- a + b 
+  a <- b        
+  b <- temp
+  count <- count + 1
+}
+
+
+
+# Ex 03 : Ask for Number > 10
+
+# Using for Loops:
+inputs <- c(3,7,10,12,1)
+i <- 1
+repeat {
+  num <- inputs[i]
+  print(paste("You Entered:",num))
+  
+  if (num>10) {
+    print("Thank You!")
+    break
+  }
+  i <- i +1
+}
+
+# Using while Loops:
+inputs <- c(2,5,9,15)
+i <- 1
+num <- inputs[i]
+while (num <= 10){
+  print(paste("You Enteres:", num))
+  i <- i +1
+  num <- inputs[i]
+}
+print("Thank You!")
+
+
+
+# Ex 4 : Print Traingle patterns
+
+# Using for Loops:
+rows <-4
+for (i in 1:rows){
+  line <- rep("*", i)
+  cat(paste(line, collapse = " "), "\n")
+}
+
+# Using while Loops:
+rows <- 4
+i <- 1
+while (i <= rows) {
+  line <- rep("*", i)
+  cat(paste(line, collapse = " "), "\n")
+  i <- i +1
+}
+
+
+
+# Ex 5 : SKip Multiplie of 3
+
+# Using for Loops:
+for (i in 1:15){
+  if (i %% 3 == 0) next
+  print(i)
+}
+
+# Using while Loops:
+i <- 1
+while (i <= 15) {
+  if (i %% 3 != 0) {
+    print(i)
+  }
+  i <- i + 1
+}
+
+
+  
+# Ex 6 : Print students with score > 80
+df <- data.frame(Name=c("Zahid", "Alice", "Bob"), Score=c(98,85,10))
+df
+
+# Using for Loops:
+for (i in 1:nrow(df)){
+  if (df$Score[i] > 80) print(df$Name[i])
+}
+
+# Using while Loops:
+i <- 1
+while (i <= nrow(df)) {
+  if (df$Score[i] > 80) print(df$Name[i])
+  i <- i+1
+}
+
+
+
+# Ex 7 : Add 5 Bonous Points
+
+# Using for Loops:
+df <- data.frame(Name=c("Zahid", "Alice", "Bob"), Score=c(98,85,10))
+for (i in 1:nrow(df)){
+  df$Score[i] <- df$Score[i]+5
+}
+print(df)
+
+# Using while Loops:
+i <- 1
+while (i <= nrow(df)) {
+  df$Score[i] <- df$Score[i] + 5
+  i <- i + 1
+}
+print(df)
+
+
+
+#Ex 8 : Add Pass/Fail Result
+
+# Using for Loops:
+df <- data.frame(Name=c("Zahid", "Alice", "Bob"), Score=c(98,85,10))
+df$Result <- NA
+for (i in 1:nrow(df)) {
+  if (df$Score[i] >= 50) df$Result[i] <- "Pass" else df$Result[i] <- "Fail"
+}
+print(df)
+
+# Using While Loops:
+df$Result <- NA
+i <- 1
+while (i <= nrow(df)) {
+  df$Result[i] <- ifelse(df$Score[i] >= 50, "Pass", "Fail")
+  i <- i + 1
+}
+print(df)
+
+
+
+# Ex 9: Sum list items using lapply
+My <- list(x = 1:4, y = 5:7, z = 8:10)
+lapply(My, sum)
+
+
+
+# Ex 10: Max of each column using sapply
+df <- data.frame(Maths=c(80,90,70), Science=c(75,85,45), English=c(65,12,58))
+sapply(df, max)
+
+
+# Ex. 11 : Histogram using Loops
+df <- data.frame(
+  Maths = c(80, 90, 70),
+  Science = c(75, 85, 60),
+  English = c(65, 88, 71)
+)
+print(df)
+
+# Using for Loops:
+par(mfrow = c(1, 3))              
+for(col in names(df)) {
+  hist(df[[col]], main = col, xlab = "Scores", col = "black")  
+}
+
+# Using While Loops:
+par(mfrow = c(1, 3))  
+i <- 1
+while (i <= ncol(df)) {
+  hist(df[[i]], main = names(df)[i], xlab = "Scores", col = "black")
+  i <- i + 1
+}
+
+
+
+# Ex 12: Applying Normalization using apply function
+df <- data.frame(
+  Maths = c(80, 90, 70),
+  Science = c(75, 85, 60),
+  English = c(65, 88, 71)
+)
+df
+Normalize <- function(x) (x - min(x)) / (max(x) - min(x))
+df_Norm <- as.data.frame(apply(df, 2, Normalize))
+df_Norm
+
+
+# Ex 13 : Add Grade coloumn to the dataframe & assing value to it
+df <- data.frame(
+  Maths = c(80, 90, 70),
+  Science = c(75, 85, 60),
+  English = c(65, 88, 71)
+)
+df
+for (i in 1:nrow(df)) {
+  avg <- mean(as.numeric(df[i, 1:3]))
+  if (avg >=85)
+    df$Grade[i] <= "A"
+  else if (avg >=70)
+    df$Grade[i] <= "B"
+  else
+    df$Grade[i] <= "C"
+}
+df  

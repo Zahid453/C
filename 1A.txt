@@ -1,0 +1,58 @@
+Students <- data.frame(
+  Name = c("Alice", "Bob", "Charlie", "Alice", "Bob", "Charlie"),  
+  Subject = c("Math", "Math", "Math", "Science", "Science", "Science"),  
+  Score = c(90, 85, 88, 92, 81, 95),  
+  Age = c(14, 15, 14, 14, 15, 14) 
+)
+Students
+
+# Way 1
+aggregate(Score ~ Name, data = Students, FUN = mean)
+aggregate(Score ~ Subject + Name, data = Students, FUN = mean)
+
+# Way 2
+tapply(Students$Score, Students$Subject , mean)  
+tapply(Students$Score, list(Students$Name, Students$Subject), mean)  
+
+# Way 3
+by(Students$Score, Students$Subject , summary)
+by(Students$Score, list(Students$Subject, Students$Name), mean)
+
+# Way 4
+install.packages("dplyr")
+library(dplyr)
+
+Students %>%
+  group_by(Name) %>%
+  summarise(Avg_Score = mean(Score))
+
+Students %>%
+  group_by(Name) %>%
+  summarise(
+    Avg_Score = mean(Score),
+    Total_Score = sum(Score),
+    Count = n()
+  )
+
+Students %>%
+  group_by(Name, Subject) %>%
+  summarise(Avg = mean(Score), .groups = "drop")
+
+# Way 5
+install.packages("data.table")
+library(data.table)
+dt <- data.table(Students)  
+dt
+
+dt[, .(Avg_Score = mean(Score)), by = Name]
+dt[, .(Avg_Score = mean(Score), Total = sum(Score)), by = Subject]
+dt[, .(Avg = mean(Score)), by = .(Name, Subject)]
+
+Students %>%
+  count(Name) 
+
+
+
+
+
+

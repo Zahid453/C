@@ -1,0 +1,71 @@
+install.packages("jsonlite")  
+library("jsonlite")    
+
+Stu <- data.frame(
+  Name = c("ALice", "Bob", "Zahid"),
+  Age = c(12,15,23),
+  Score = c(91, 90, 98)
+)
+Stu
+
+# FOR JSON FILE
+Stu_Json <- toJSON(Stu, pretty = TRUE)
+Stu_Json
+Stu_JsonP <- toJSON(Stu)
+Stu_JsonP
+write(Stu_Json, file = "Stu.json")
+getwd()
+Stu_Data <- fromJSON("Stu.json")
+print(Stu_Data)
+
+# FOR CSV FILE
+write.csv(Stu, "Stu.csv", row.names = FALSE)
+getwd()
+Stucsv <- read.csv("Stu.csv")
+print(Stucsv)
+
+# FOR TSV FILE
+write.table(Stu, "Stu.tsv", sep = "\t", row.names = FALSE)
+getwd()
+Stutsv <- read.table("Stu.tsv", sep = "\t", header = TRUE)
+print(Stutsv)
+
+# FOR EXCEL FILE
+install.packages("readxl")
+install.packages("writexl")
+library(readxl)
+library(writexl)
+
+write_xlsx(Stu, "Stu.xlsx")
+getwd()
+dataxl <- read_excel("Stu.xlsx")
+print(dataxl)
+
+Prof <- data.frame(
+  Name = c("Zahid", "Ajit", "Wajid"),
+  Age = c(23,25,22),
+  Subject = c("Maths", "Python", "History")
+)
+Prof
+write_xlsx(list(Sheet1 = Stu, Sheet2 = Prof), "Multi-Sheet.xlsx")
+getwd()
+
+# FOR XML FILE
+install.packages("XML")
+library(XML)
+
+doc <- newXMLDoc()
+root <- newXMLNode("Stus", doc = doc)
+
+for (i in 1:nrow(Stu)) {
+  stu_node <- newXMLNode("Stu", parent = root)
+  newXMLNode("Name", Stu$Name[i], parent = stu_node)
+  newXMLNode("Age", Stu$Age[i], parent = stu_node)
+  newXMLNode("Score", Stu$Score[i], parent = stu_node)
+}
+
+saveXML(doc, "XML.xml")
+xml_data <- xmlParse("XML.xml")
+xml_root <- xmlRoot(xml_data)
+Stu_xml <- xmlToDataFrame(xml_root)
+print(Stu_xml)
