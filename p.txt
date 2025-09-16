@@ -1,0 +1,31 @@
+install.packages("tidyr")   
+library(tidyr)              
+
+# Creates a wide-format data frame with students and their scores in Math and Science.
+data_wide <- data.frame(
+  Name = c("A", "B"),
+  Math = c(90, 85),
+  Science = c(95, 75)
+)
+data_wide
+
+# Converts wide format to long format: reshapes subject columns into key-value pairs.
+data_long <- pivot_longer(data_wide, 
+                          cols = c(Math, Science), 
+                          names_to = "Subject", 
+                          values_to = "Score")
+data_long
+
+# Manually creates a long-format data frame with Name, Subject, and Score columns.
+data_long2 <- data.frame(
+  Name = c("A", "B", "A", "B"),
+  Subject = c("Math", "Science", "Math", "Science"),
+  Score = c(90, 95, 85, 75)
+)
+data_long2
+
+# Converts long format back to wide format: spreads 'Subject' as column headers.
+data_wide2 <- pivot_wider(data_long2, 
+                          names_from = Subject, 
+                          values_from = Score)
+data_wide2
